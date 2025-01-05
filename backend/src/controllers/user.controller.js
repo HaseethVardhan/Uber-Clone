@@ -26,7 +26,7 @@ const registerUser = asyncHandler( async(req, res) => {
     }
     
     const hashedPassword = await User.hashPassword(password)
-    const token = await User.generateAuthToken()
+    const token = await existUser.generateAuthToken()
 
     
     const user = await User.create({
@@ -49,7 +49,40 @@ const registerUser = asyncHandler( async(req, res) => {
 })
 
 const loginUser = asyncHandler( async(req,res) => {
-    
+
+    const errors = validationResult(req)
+
+    if(!errors.isEmpty()){
+        throw new ApiError(400, 'Express validation error')
+    }
+
+    const {email, password} = req.body
+
+    if(!email || !password){
+        throw new ApiError(400, 'Enter email and password')
+    }
+
+    const existUser = await User.findOne({email}).select('+password')
+
+    if(!existUser){
+        throw new ApiError(400, 'No such user exists')
+    }
+
+    const passwordCheck = await existUser.comparePassword(password)
+
+    if(!passwordCheck){
+        throw new ApiError(400, 'Wrong password')
+    }
+
+    const user = await User.findOne({email})
+    const token = existUser.generateAuthToken()
+
+    return res
+    .status(201)
+    .json(new ApiResponse(201, {user, token}, 'User logged in'))
+
 })
 
-export {registerUser}
+
+
+export {registerUser, loginUser}
