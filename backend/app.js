@@ -3,6 +3,8 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 import connectDB from './src/db/db.js'
 import userRouter from './src/routes/user.routes.js'
+import cookieParser from 'cookie-parser'
+
 
 dotenv.config({
     path : './.env'
@@ -20,6 +22,8 @@ app.use(cors({
 
 app.use(express.json())
 app.use(urlencoded({extended: true}))
+app.use(cookieParser())
+
 
 app.use('/user', userRouter)
 
