@@ -4,6 +4,7 @@ import cors from 'cors'
 import connectDB from './src/db/db.js'
 import userRouter from './src/routes/user.routes.js'
 import cookieParser from 'cookie-parser'
+import captainRouter from './src/routes/captain.routes.js'
 
 
 dotenv.config({
@@ -26,6 +27,7 @@ app.use(cookieParser())
 
 
 app.use('/user', userRouter)
+app.use('/captain', captainRouter)
 
 app.get('/', (req, res) => {
     res.send("Hello World");
