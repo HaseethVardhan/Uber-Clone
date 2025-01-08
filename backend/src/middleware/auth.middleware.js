@@ -15,20 +15,22 @@ const verifyUser = asyncHandler( async (req, res, next) => {
         throw new ApiError(400, 'token deleted or unauthorized access')
     }
 
-    if(!token){
+    if(!token || token === null){
         throw new ApiError(400, 'unauthorized request')
     }
 
     
     try {
+        // console.log(token)
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
         const user = await User.findById(decoded._id)
-
+ 
         req.user = user
 
         return next()
         
-    } catch (error) {
+    } catch (error) { 
+        console.log(error)
         throw new ApiError(400, 'unauthorized')
     }
     

@@ -27,11 +27,10 @@ const registerUser = asyncHandler( async(req, res) => {
     }
     
     const hashedPassword = await User.hashPassword(password)
-    const token = await User.generateAuthToken()
-
+    
     
     const user = await User.create({
-         fullname: {
+        fullname: {
             firstname: fullname.firstname.toLowerCase(),
             lastname: fullname.lastname.toLowerCase()
         },
@@ -39,6 +38,7 @@ const registerUser = asyncHandler( async(req, res) => {
         password: hashedPassword
     })
     
+    const token = await user.generateAuthToken()
 
     return res
     .status(201)
@@ -76,7 +76,7 @@ const loginUser = asyncHandler( async(req,res) => {
     }
 
     const user = await User.findOne({email})
-    const token = await User.generateAuthToken()
+    const token = await existUser.generateAuthToken()
 
     const options = {
         httpOnly: true,
@@ -95,7 +95,7 @@ const getUserProfile = asyncHandler( async(req,res) => {
     .status(200)
     .json(new ApiResponse(200, req.user, 'Profile fetched successfully'))
 })
-
+ 
 const logOut = asyncHandler( async(req, res) => {
     const token = req.cookies.token || req.headers.authorization.split(' ')[ 1 ]
 

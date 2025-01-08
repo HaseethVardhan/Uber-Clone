@@ -26,8 +26,8 @@ const UserLogin = () => {
 
     if (response.status >= 200 && response.status <300) {
       const data = response.data;
-      setuser(data.user);
-      localStorage.setItem('token', data.token)
+      setuser(data.data.user);
+      localStorage.setItem('token', data.data.token)
       navigate("/home");
     }
 
