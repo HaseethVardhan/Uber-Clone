@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema({
     }
 })
 
-userSchema.methods.generateAuthToken = async function() {
+userSchema.statics.generateAuthToken = async function() {
     return jwt.sign(
         {
             _id: this._id

@@ -27,7 +27,7 @@ const registerUser = asyncHandler( async(req, res) => {
     }
     
     const hashedPassword = await User.hashPassword(password)
-    const token = await existUser.generateAuthToken()
+    const token = await User.generateAuthToken()
 
     
     const user = await User.create({
@@ -76,7 +76,7 @@ const loginUser = asyncHandler( async(req,res) => {
     }
 
     const user = await User.findOne({email})
-    const token = await user.generateAuthToken()
+    const token = await User.generateAuthToken()
 
     const options = {
         httpOnly: true,
