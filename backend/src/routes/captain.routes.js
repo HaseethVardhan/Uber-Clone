@@ -11,7 +11,7 @@ router.route('/register').post([
     body('password').isLength({min: 6}).withMessage('Password should be atleast 6 characters'),
 ], registerCaptain)
 
-router.route('/login').get([
+router.route('/login').post([
     body('email').isEmail().withMessage('Invalid Email'),
     body('password').isLength({min: 6}).withMessage('Password should be atleast 6 characters'),
 ], loginCaptain)
