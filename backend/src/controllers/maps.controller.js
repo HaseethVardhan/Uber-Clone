@@ -1,4 +1,4 @@
-import { getAddressCoordinate, getDistanceTimeService } from "../services/maps.service.js";
+import { getAddressCoordinate, getDistanceTimeService, getAutoSuggestionsService } from "../services/maps.service.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import ApiError from "../utils/ApiError.js";
 import { validationResult } from 'express-validator'
@@ -43,4 +43,23 @@ export const getDistanceTime = async (req, res) => {
     }
 
 
+}
+
+export const getAutoSuggestions = async (req, res) => {
+    
+    if(!validationResult(req).isEmpty()) {
+        throw new ApiError(400, validationResult(req), 'input query invalid')
+    }
+
+    const { input } = req.query
+
+    try {
+        const suggestions = await getAutoSuggestionsService(input)
+        return res
+        .status(200)
+        .json(new ApiResponse(200, suggestions, 'Suggestions fetched successfully'))
+    } catch (error) {
+        console.log(error)
+        throw new ApiError(500, 'something went wrong while fetching suggestions')
+    }
 }
