@@ -6,6 +6,7 @@ import userRouter from './src/routes/user.routes.js'
 import cookieParser from 'cookie-parser'
 import captainRouter from './src/routes/captain.routes.js'
 import mapRouter from './src/routes/maps.routes.js'
+import rideRouter from './src/routes/ride.routes.js'
 
 dotenv.config({
     path : './.env'
@@ -29,6 +30,7 @@ app.use(cookieParser())
 app.use('/user', userRouter)
 app.use('/captain', captainRouter)
 app.use('/maps', mapRouter)
+app.use('/rides', rideRouter)
 
 app.get('/', (req, res) => {
     res.send("Hello World");

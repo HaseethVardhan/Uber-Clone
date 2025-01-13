@@ -30,10 +30,10 @@ export const getDistanceTime = async (req, res) => {
         throw new ApiError(400, validationResult(req), 'origin or destination query invalid')
     }
 
-    const { origin, destination } = req.query
+    const { pickup, destination } = req.query
 
     try {
-        const distanceTime = await getDistanceTimeService(origin, destination)
+        const distanceTime = await getDistanceTimeService(pickup, destination)
         return res
         .status(200)
         .json(new ApiResponse(200, distanceTime, 'Distance and time fetched successfully'))

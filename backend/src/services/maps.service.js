@@ -32,11 +32,14 @@ export const getDistanceTimeService = async (origin, destination) => {
       `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${origin}&destinations=${destination}&key=${process.env.GOOGLE_MAPS_API}`
     );
 
+    
+
     if (response.data.status === "OK") {
       if (response.data.rows[0].elements[0].status === "ZERO_RESULTS") {
         throw new ApiError(400, "no routes found");
       }
 
+    
       return response.data.rows[0].elements[0];
     } else {
       throw new ApiError(
