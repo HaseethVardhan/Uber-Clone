@@ -2,6 +2,7 @@ import { getAddressCoordinate, getDistanceTimeService, getAutoSuggestionsService
 import ApiResponse from "../utils/ApiResponse.js";
 import ApiError from "../utils/ApiError.js";
 import { validationResult } from 'express-validator'
+import { getFare } from "../services/ride.service.js";
 
 export const getCoordinates = async (req, res) => {
 
@@ -63,4 +64,28 @@ export const getAutoSuggestions = async (req, res) => {
         console.log(error)
         throw new ApiError(500, 'something went wrong while fetching suggestions')
     }
+}
+
+export const getRates = async (req, res) => {
+
+    if(!validationResult(req).isEmpty()){
+        throw new ApiError(400, 'validation error while fare')
+    }
+
+    const {pickup, destination} = req.query
+   
+
+    try {
+        const response = await getFare(pickup, destination)
+
+
+
+        return res
+        .status(200)
+        .json(new ApiResponse(200, response, 'fares fetched successfully'))
+    } catch (error) {
+        console.log(error)
+        // throw new ApiError(500, 'error while fetching fares')
+    }
+
 }

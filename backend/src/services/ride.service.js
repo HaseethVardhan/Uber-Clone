@@ -31,13 +31,13 @@ export const createRide = async ({
 
 }
 
-async function getFare(pickup, destination) {
+export const getFare = async (pickup, destination) => {
   if (!pickup || !destination) {
     throw new ApiError(400, "Pickup and Destination are required");
   }
 
   const distanceTime = await getDistanceTimeService(pickup, destination);
-  
+
 
   try {
     const baseFare = 50; 
