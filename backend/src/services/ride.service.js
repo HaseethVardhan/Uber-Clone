@@ -1,6 +1,5 @@
 import Ride from "../models/ride.model.js";
 import { getDistanceTimeService } from "../services/maps.service.js";
-import {getDistanceTime} from '../controllers/maps.controller.js'
 import ApiError from "../utils/ApiError.js";
 
 export const createRide = async ({
@@ -19,6 +18,7 @@ export const createRide = async ({
             user: userId,
             pickup,
             destination,
+            otp: getOtp(4),
             fare: fare[vehicleType]
         })
 
@@ -59,4 +59,9 @@ async function getFare(pickup, destination) {
     console.log(error)
     throw new ApiError(500, 'error calculating fare')
   }
+}
+
+function getOtp(num){
+  const otp = crypto.randomInt(Math.pow(10, num-1), Math.pow(10, num).toString())
+  return otp
 }
