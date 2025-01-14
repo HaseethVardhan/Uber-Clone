@@ -48,7 +48,8 @@ export const getDistanceTime = async (req, res) => {
 export const getAutoSuggestions = async (req, res) => {
     
     if(!validationResult(req).isEmpty()) {
-        throw new ApiError(400, validationResult(req), 'input query invalid')
+        console.log(req.query)   
+        throw new ApiError(400, req.query, 'input query invalid')
     }
 
     const { input } = req.query

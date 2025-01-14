@@ -1,4 +1,5 @@
 import axios from "axios";
+import ApiError from "../utils/ApiError.js";
 
 export const getAddressCoordinate = async (address) => {
   try {
@@ -58,7 +59,8 @@ export const getDistanceTimeService = async (origin, destination) => {
 
 export const getAutoSuggestionsService = async (input) => {
   if (!input) {
-    throw new ApiError(400, "address is required");
+    return []
+    // throw new ApiError(400, "address is required");
   }
 
   try {
@@ -68,8 +70,6 @@ export const getAutoSuggestionsService = async (input) => {
 
     if(response.data.status === 'OK'){
         return response.data.predictions
-    }else{
-        throw new ApiError(400, 'something went wrong while fetching suggestions')
     }
 
   } catch (error) {

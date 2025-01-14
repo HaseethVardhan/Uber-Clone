@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import "remixicon/fonts/remixicon.css";
@@ -11,6 +11,7 @@ import WaitingForDriver from "../components/WaitingForDriver";
 const Home = () => {
   const [pickup, setpickup] = useState("");
   const [destination, setdestination] = useState("");
+  const [inp, setinp] = useState('')
 
   const [panelOpen, setpanelOpen] = useState(false);
   const panelref = useRef(null);
@@ -29,6 +30,14 @@ const Home = () => {
   const submitHandler = (e) => {
     e.preventDefault();
   };
+
+  useEffect(()=>{
+    setinp('pickup')
+  }, [pickup])
+
+  useEffect(()=>{
+    setinp('destination')
+  }, [destination])
 
   useGSAP(
     function () {
@@ -166,7 +175,7 @@ const Home = () => {
           </form>
         </div>
         <div ref={panelref} className=" bg-white h-0">
-          <LocationSearchPanel setpanelOpen={setpanelOpen} setvehiclePanel={setvehiclePanel} />
+          <LocationSearchPanel setpanelOpen={setpanelOpen} setvehiclePanel={setvehiclePanel} pickup={pickup} setpickup={setpickup} destination={destination} setdestination={setdestination} inp={inp}/>
         </div>
       </div>
 
