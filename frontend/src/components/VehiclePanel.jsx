@@ -57,7 +57,7 @@ const VehiclePanel = (props) => {
       </div>
       <div
         onClick={() => {
-          setconfirmRidePanel(true);
+          props.setconfirmRidePanel(true);
           props.setfinalFare(Math.ceil(props.fares.moto))
           props.setfinalVehicle('moto')
         }}
@@ -83,7 +83,7 @@ const VehiclePanel = (props) => {
       </div>
       <div
         onClick={() => {
-          setconfirmRidePanel(true);
+          props.setconfirmRidePanel(true);
           props.setfinalFare(Math.ceil(props.fares.auto))
           props.setfinalVehicle('auto')
         }}

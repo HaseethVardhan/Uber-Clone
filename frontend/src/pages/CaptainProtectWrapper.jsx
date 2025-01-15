@@ -6,16 +6,15 @@ import axios from "axios";
 const CaptainProtectWrapper = ({ children }) => {
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
-  const { captain, setCaptain } = useContext(CaptainDataContext);
   const [isLoading, setIsLoading] = useState(true);
+
+  const {setCaptain, updateCaptain} = useContext(CaptainDataContext)
 
   useEffect(() => {
     if (!token || token === null) {
       navigate("/captain-login");
-    }
-  }, [token]);
-
-  axios
+    }else{
+      axios
     .get(`${import.meta.env.VITE_BASE_URL}/captain/profile`, {
       headers: {
         authorization: `Bearer ${token}`,
@@ -23,7 +22,8 @@ const CaptainProtectWrapper = ({ children }) => {
     })
     .then((response) => {
       if (response.status === 200) {
-        setCaptain(response.data.captain);
+        console.log(response.data.data.captain)
+        setCaptain(response.data.data.captain)
         setIsLoading(false);
       }
     })
@@ -32,6 +32,10 @@ const CaptainProtectWrapper = ({ children }) => {
       localStorage.removeItem("token");
       navigate("/captain-login");
     });
+    }
+  }, [token, navigate, setCaptain]);
+
+  
 
   if (isLoading) {
     return <div>Loading...</div>;

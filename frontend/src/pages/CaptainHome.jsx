@@ -1,12 +1,18 @@
-import React, {useState, useRef} from "react";
+import React, {useState, useRef, useContext, useEffect} from "react";
 import { Link } from "react-router-dom";
 import CaptainDetails from "../components/CaptainDetails";
 import RidePopup from "../components/RidePopup";
 import { useGSAP } from "@gsap/react";
 import gsap from 'gsap'
 import ConfirmRidePopup from "../components/ConfirmRidePopup";
+import {CaptainDataContext} from "../context/CaptainContext.jsx";
 
 const CaptainHome = () => {
+
+  const {captain} = useContext(CaptainDataContext)
+  console.log(captain)
+  
+  
 
   const [ridePopupPanel, setridePopupPanel] = useState(true)
   const [confirmRidePopupPanel, setconfirmRidePopupPanel] = useState(false)
@@ -60,7 +66,7 @@ const CaptainHome = () => {
         ></img>
       </div>
       <div className="h-2/5 p-6">
-        <CaptainDetails />
+        <CaptainDetails captain={captain}/>
       </div>
       <div ref={ridePopupPanelRef} className="fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-6 pt-12">
         <RidePopup setridePopupPanel={setridePopupPanel} setconfirmRidePopupPanel={setconfirmRidePopupPanel} />
