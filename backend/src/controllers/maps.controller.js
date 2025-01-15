@@ -78,13 +78,12 @@ export const getRates = async (req, res) => {
     try {
         const response = await getFare(pickup, destination)
 
-
-
         return res
         .status(200)
         .json(new ApiResponse(200, response, 'fares fetched successfully'))
     } catch (error) {
         console.log(error)
+
         // throw new ApiError(500, 'error while fetching fares')
     }
 

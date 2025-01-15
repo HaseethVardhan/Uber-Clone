@@ -1,6 +1,7 @@
 import Ride from "../models/ride.model.js";
 import { getDistanceTimeService } from "../services/maps.service.js";
 import ApiError from "../utils/ApiError.js";
+import * as crypto from 'crypto'
 
 export const createRide = async ({
     userId, pickup, destination, vehicleType
@@ -62,6 +63,6 @@ export const getFare = async (pickup, destination) => {
 }
 
 function getOtp(num){
-  const otp = crypto.randomInt(Math.pow(10, num-1), Math.pow(10, num).toString())
+  const otp = crypto.randomInt(Math.pow(10, num-1), Math.pow(10, num)).toString()
   return otp
 }

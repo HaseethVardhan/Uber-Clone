@@ -12,6 +12,10 @@ const Home = () => {
   const [pickup, setpickup] = useState("");
   const [destination, setdestination] = useState("");
   const [inp, setinp] = useState('')
+  const [fares, setfares] = useState({})
+  const [finalFare, setfinalFare] = useState()
+  const [finalVehicle, setfinalVehicle] = useState()
+  const [finalRide, setfinalRide] = useState()
 
   const [panelOpen, setpanelOpen] = useState(false);
   const panelref = useRef(null);
@@ -180,15 +184,15 @@ const Home = () => {
       </div>
 
       <div ref={vehiclePanelRef} className="fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12">
-              <VehiclePanel  setconfirmRidePanel={setconfirmRidePanel} setvehiclePanel={setvehiclePanel} pickup={pickup} destination={destination}/>
+              <VehiclePanel  setconfirmRidePanel={setconfirmRidePanel} setvehiclePanel={setvehiclePanel} vehiclePanel={vehiclePanel} pickup={pickup} destination={destination} fares={fares} setfares={setfares} setfinalFare={setfinalFare} setfinalVehicle={setfinalVehicle}/>
       </div>
 
       <div ref={confirmRidePanelRef} className="fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-6 pt-12">
-              <ConfirmedRide setconfirmRidePanel={setconfirmRidePanel} setvehicleFound={setvehicleFound} setvehiclePanel={setvehiclePanel} />
+              <ConfirmedRide setconfirmRidePanel={setconfirmRidePanel} setvehicleFound={setvehicleFound} setvehiclePanel={setvehiclePanel} pickup={pickup} destination={destination} finalFare={finalFare} finalVehicle={finalVehicle} setfinalRide={setfinalRide} />
       </div>
 
       <div ref={vehicleFoundRef} className="fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-6 pt-12">
-              <LookingForDriver setvehiclePanel={setvehiclePanel} setconfirmRidePanel={setconfirmRidePanel} setvehicleFound={setvehicleFound}/>
+              <LookingForDriver setvehiclePanel={setvehiclePanel} setconfirmRidePanel={setconfirmRidePanel} setvehicleFound={setvehicleFound} pickup={pickup} destination={destination} finalFare={finalFare} finalVehicle={finalVehicle}/>
       </div>
 
       <div ref={waitingForDriverRef} className="fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-6 pt-12">

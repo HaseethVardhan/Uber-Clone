@@ -3,10 +3,6 @@ import axios from 'axios'
 
 const VehiclePanel = (props) => {
 
-  const [fares, setfares] = useState({})
-
-
-
   useEffect(()=> {
     const func = async() => {
       const rate = await axios.get(`${import.meta.env.VITE_BASE_URL}/maps/get-fare?pickup=${props.pickup}&destination=${props.destination}`,
@@ -16,11 +12,11 @@ const VehiclePanel = (props) => {
           },
         }
       )
-      setfares(rate.data.data)
+      props.setfares(rate.data.data)
     }
 
     func()
-  }, [props.pickup, props.destination])
+  }, [props.vehiclePanel])
 
   return (
     <div>
@@ -36,6 +32,8 @@ const VehiclePanel = (props) => {
       <div
         onClick={() => {
           props.setconfirmRidePanel(true);
+          props.setfinalFare(Math.ceil(props.fares.car))
+          props.setfinalVehicle('car')
         }}
         className="flex border-2 mb-2 active:border-black rounded-xl w-full p-3 items-center justify-between"
       >
@@ -55,11 +53,13 @@ const VehiclePanel = (props) => {
             Affordable, compact rides
           </p>
         </div>
-        <h2 className="text-lg font-semibold">&#8377;{fares.car}</h2>
+        <h2 className="text-lg font-semibold">&#8377;{Math.ceil(props.fares.car)}</h2>
       </div>
       <div
         onClick={() => {
           setconfirmRidePanel(true);
+          props.setfinalFare(Math.ceil(props.fares.moto))
+          props.setfinalVehicle('moto')
         }}
         className="flex border-2 mb-2 active:border-black rounded-xl w-full p-3 items-center justify-between"
       >
@@ -79,11 +79,13 @@ const VehiclePanel = (props) => {
             Affordable motorcycle ride
           </p>
         </div>
-        <h2 className="text-lg font-semibold">&#8377;{fares.moto}</h2>
+        <h2 className="text-lg font-semibold">&#8377;{Math.ceil(props.fares.moto)}</h2>
       </div>
       <div
         onClick={() => {
           setconfirmRidePanel(true);
+          props.setfinalFare(Math.ceil(props.fares.auto))
+          props.setfinalVehicle('auto')
         }}
         className="flex border-2 mb-2 active:border-black rounded-xl w-full p-3 items-center justify-between"
       >
@@ -103,7 +105,7 @@ const VehiclePanel = (props) => {
             Affordable Auto ride
           </p>
         </div>
-        <h2 className="text-lg font-semibold">&#8377;{fares.auto}</h2>
+        <h2 className="text-lg font-semibold">&#8377;{Math.ceil(props.fares.auto)}</h2>
       </div>
     </div>
   );
