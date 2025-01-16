@@ -1,5 +1,6 @@
 import React, {useState, useRef, useContext, useEffect} from "react";
 import { Link } from "react-router-dom";
+import axios from 'axios'
 import CaptainDetails from "../components/CaptainDetails";
 import RidePopup from "../components/RidePopup";
 import { useGSAP } from "@gsap/react";
@@ -9,9 +10,14 @@ import {CaptainDataContext} from "../context/CaptainContext.jsx";
 import { SocketContext } from "../context/SocketContext.jsx";
 
 const CaptainHome = () => {
-
+  
   const {captain} = useContext(CaptainDataContext)
   const {socket } = useContext(SocketContext)
+  
+  const [rideDetails, setrideDetails] = useState(null)
+  
+  const [ridePopupPanel, setridePopupPanel] = useState(false)
+  const [confirmRidePopupPanel, setconfirmRidePopupPanel] = useState(false)
 
   useEffect(()=>{
     socket.emit('join', {
@@ -22,14 +28,6 @@ const CaptainHome = () => {
     const updateLocation = () => {
       if(navigator.geolocation){
         navigator.geolocation.getCurrentPosition(position => {
-
-          console.log({
-            userId: captain._id,
-            location: {
-              ltd: position.coords.latitude,
-              lng: position.coords.longitude
-            }
-          })
 
           socket.emit('update-captain-location', {
             userId: captain._id,
@@ -50,13 +48,31 @@ const CaptainHome = () => {
     
 
   }, [captain])
+
+  socket.on('new-ride', (data) => {
+    setrideDetails(data)
+    setridePopupPanel(true)
+  })
   
 
-  const [ridePopupPanel, setridePopupPanel] = useState(true)
-  const [confirmRidePopupPanel, setconfirmRidePopupPanel] = useState(false)
 
   const ridePopupPanelRef = useRef(null)
   const confirmRidePopupPanelRef = useRef(null)
+
+  async function confirmTheRide  () {
+
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/confirm`, 
+    {
+      rideId: rideDetails._id
+    },
+    {
+      headers: {
+        authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+    
+    setconfirmRidePopupPanel(true)
+  }
 
   useGSAP(function(){
     if(ridePopupPanel){
@@ -107,10 +123,10 @@ const CaptainHome = () => {
         <CaptainDetails captain={captain}/>
       </div>
       <div ref={ridePopupPanelRef} className="fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-6 pt-12">
-        <RidePopup setridePopupPanel={setridePopupPanel} setconfirmRidePopupPanel={setconfirmRidePopupPanel} />
+        <RidePopup setridePopupPanel={setridePopupPanel} setconfirmRidePopupPanel={setconfirmRidePopupPanel} rideDetails={rideDetails} confirmTheRide={confirmTheRide}/>
       </div>
       <div ref={confirmRidePopupPanelRef} className="fixed w-full h-screen z-10 bottom-0 translate-y-full bg-white px-3 py-6 pt-12">
-        <ConfirmRidePopup setconfirmRidePopupPanel={setconfirmRidePopupPanel} setridePopupPanel={setridePopupPanel} />
+        <ConfirmRidePopup setconfirmRidePopupPanel={setconfirmRidePopupPanel} setridePopupPanel={setridePopupPanel} rideDetails={rideDetails}/>
       </div>
     </div>
   );

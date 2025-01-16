@@ -3,7 +3,6 @@ import { CaptainDataContext } from "../context/CaptainContext.jsx";
 
 const CaptainDetails = (props) => {
  
-  
 
   return (
     <div>

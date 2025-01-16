@@ -9,6 +9,7 @@ import LookingForDriver from "../components/LookingForDriver";
 import WaitingForDriver from "../components/WaitingForDriver";
 import { SocketContext } from '../context/SocketContext.jsx';
 import {UserDataContext} from '../context/UserContext.jsx'
+import { set } from "mongoose";
 
 const Home = () => {
   const [pickup, setpickup] = useState("");
@@ -18,6 +19,7 @@ const Home = () => {
   const [finalFare, setfinalFare] = useState()
   const [finalVehicle, setfinalVehicle] = useState()
   const [finalRide, setfinalRide] = useState()
+  const [confirmRideDetails, setconfirmRideDetails] = useState(null)
 
   const [panelOpen, setpanelOpen] = useState(false);
   const panelref = useRef(null);
@@ -39,6 +41,12 @@ const Home = () => {
     socket.emit("join", { userType: "user", userId: user._id })
 }, [ user ])
 
+  socket.on('ride-confirmed', data => {
+    console.log(data)
+    setconfirmRideDetails(data)
+    setvehicleFound(false)
+    setwaitingForDriver(true)
+  })
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -205,7 +213,7 @@ const Home = () => {
       </div>
 
       <div ref={waitingForDriverRef} className="fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-6 pt-12">
-              <WaitingForDriver setWaitingForDriver={setwaitingForDriver}/>
+              <WaitingForDriver setWaitingForDriver={setwaitingForDriver} confirmRideDetails={confirmRideDetails}/>
       </div>
     </div>
   );
