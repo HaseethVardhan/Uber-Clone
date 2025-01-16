@@ -28,7 +28,7 @@ function initializeSocket(server) {
         });
 
 
-        socket.on('update-location-captain', async (data) => {
+        socket.on('update-captain-location', async (data) => {
             const { userId, location } = data;
 
             if (!location || !location.ltd || !location.lng) {

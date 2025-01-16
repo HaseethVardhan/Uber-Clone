@@ -6,12 +6,50 @@ import { useGSAP } from "@gsap/react";
 import gsap from 'gsap'
 import ConfirmRidePopup from "../components/ConfirmRidePopup";
 import {CaptainDataContext} from "../context/CaptainContext.jsx";
+import { SocketContext } from "../context/SocketContext.jsx";
 
 const CaptainHome = () => {
 
   const {captain} = useContext(CaptainDataContext)
-  console.log(captain)
-  
+  const {socket } = useContext(SocketContext)
+
+  useEffect(()=>{
+    socket.emit('join', {
+      userId: captain._id,
+      userType: "captain"
+    })
+
+    const updateLocation = () => {
+      if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(position => {
+
+          console.log({
+            userId: captain._id,
+            location: {
+              ltd: position.coords.latitude,
+              lng: position.coords.longitude
+            }
+          })
+
+          socket.emit('update-captain-location', {
+            userId: captain._id,
+            location: {
+              ltd: position.coords.latitude,
+              lng: position.coords.longitude
+            }
+          })
+        })
+      }
+    }
+
+    
+    const locationInterval = setInterval(updateLocation, 10000)
+    updateLocation()
+
+    return () => clearInterval(locationInterval)
+    
+
+  }, [captain])
   
 
   const [ridePopupPanel, setridePopupPanel] = useState(true)

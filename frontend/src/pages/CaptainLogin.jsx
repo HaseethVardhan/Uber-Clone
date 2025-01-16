@@ -26,7 +26,6 @@ const CaptainLogin = () => {
 
     if (response.status === 201) {
       const data = response.data;
-      // console.log(data.data.captain);
       setCaptain(data.data.captain);
       localStorage.setItem("token", data.data.token);
       navigate("/captain-home");
@@ -44,12 +43,8 @@ const CaptainLogin = () => {
           src="https://www.svgrepo.com/show/505031/uber-driver.svg"
         />
         <form
-          onSubmit={(e) => {
-            const func = async (e) => {
-              await submitHandler(e);
-            };
-
-            func(e);
+          onSubmit={async(e) => {
+            await submitHandler(e)
           }}
         >
           <h3 className="text-lg font-medium mb-2">What's your email</h3>

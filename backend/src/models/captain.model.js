@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 import jwt from 'jsonwebtoken'
-import bcrypt from 'bcrypt'
+import {compare, hash} from 'bcrypt'
 
 const captainSchema = new mongoose.Schema({
     fullname: {
@@ -56,10 +56,10 @@ const captainSchema = new mongoose.Schema({
         }
     },
     location: {
-        lat: {
+        ltd: {
             type: Number
         },
-        lon: {
+        lng: {
             type: Number
         }
     }
@@ -78,11 +78,11 @@ captainSchema.methods.generateAuthToken = async function() {
 }
 
 captainSchema.methods.comparePassword = async function(password) {
-    return await bcrypt.compare(password, this.password)
+    return await compare(password, this.password)
 }
 
 captainSchema.statics.hashPassword = async function(password){
-    return await bcrypt.hash(password, 10)
+    return await hash(password, 10)
 }
 
 export const Captain = mongoose.model('Captain', captainSchema)

@@ -1,4 +1,5 @@
 import axios from "axios";
+import {Captain} from '../models/captain.model.js'
 import ApiError from "../utils/ApiError.js";
 
 export const getAddressCoordinate = async (address) => {
@@ -80,3 +81,19 @@ export const getAutoSuggestionsService = async (input) => {
     );
   }
 };
+
+export const getCaptainsInRadius = async(ltd, lng, radius) => {
+
+
+  const captains = await Captain.find({
+    location: {
+        $geoWithin: {
+            $centerSphere: [ [ ltd, lng ], radius / 6371 ]
+        }
+    }
+});
+
+  
+
+  return captains
+}

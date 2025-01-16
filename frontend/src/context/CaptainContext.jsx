@@ -11,10 +11,6 @@ const CaptainContext = ({ children }) => {
     setCaptain(captainData);
   };
 
-  useEffect(()=>{
-    console.log(captain)
-  }, [captain])
-
   const value = {
     captain,
     setCaptain,
