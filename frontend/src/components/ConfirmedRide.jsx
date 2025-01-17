@@ -73,7 +73,7 @@ const ConfirmedRide = (props) => {
           <div className="flex items-center gap-5 p-3">
           <i className="text-lg ri-currency-line"></i>
             <div>
-              <h3 className="text-lg font-medium">&#8377;{props.finalFare}</h3>
+              <h3 className="text-lg font-medium">&#8377;{Math.ceil(props.finalFare)}</h3>
               <p className="text-gray-600 text-sm -mt-1">
                 Cash Cash
               </p>
@@ -91,7 +91,7 @@ const ConfirmedRide = (props) => {
           props.setvehicleFound(true)
           props.setconfirmRidePanel(false)
           props.setvehiclePanel(false)
-        }} className="w-full mt-5 bg-green-600 text-white font-semibold p-2 rounded-lg">
+        }} className="w-full mt-5 bg-green-600 text-white font-semibold p-2 rounded-lg mb-12">
           Confirm
         </button>
       </div>

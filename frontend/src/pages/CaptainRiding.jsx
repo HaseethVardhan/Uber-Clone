@@ -1,14 +1,19 @@
 import React, {useState, useRef} from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import FinishRide from '../components/FinishRide'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
+import LiveTracking from '../components/LiveTracking'
 
 const CaptainRiding = () => {
 
     const [finishRidePanel, setfinishRidePanel] = useState(false)
 
     const finishRidePanelRef = useRef(null)
+
+    const location = useLocation()
+    const ride = location.state?.ride
+    console.log(ride)
 
     useGSAP(function(){
         if(finishRidePanel){
@@ -39,10 +44,7 @@ const CaptainRiding = () => {
         </Link>
       </div>
       <div className="h-4/5 ">
-        <img
-          className="h-full w-full object-cover"
-          src="https://previews.123rf.com/images/rhoeo/rhoeo2003/rhoeo200300016/142233376-urban-taxi-service-vector-illustration-yellow-taxi-car-and-route-with-dash-line-trace-tracking.jpg"
-        ></img>
+        <LiveTracking />
       </div>
       <div className="h-1/5 p-6 bg-yellow-400 flex items-center justify-between relative" 
       onClick={()=>{
@@ -61,7 +63,7 @@ const CaptainRiding = () => {
          <button className=" bg-green-600 text-white font-semibold p-3 px-10 rounded-lg">Complete Ride</button>
       </div>
       <div ref={finishRidePanelRef} className="fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-6 pt-12">
-        <FinishRide setfinishRidePanel={setfinishRidePanel}/>
+        <FinishRide setfinishRidePanel={setfinishRidePanel} ride={ride}/>
       </div>
     </div>
   )

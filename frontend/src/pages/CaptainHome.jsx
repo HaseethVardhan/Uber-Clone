@@ -8,6 +8,7 @@ import gsap from 'gsap'
 import ConfirmRidePopup from "../components/ConfirmRidePopup";
 import {CaptainDataContext} from "../context/CaptainContext.jsx";
 import { SocketContext } from "../context/SocketContext.jsx";
+import LiveTracking from "../components/LiveTracking.jsx";
 
 const CaptainHome = () => {
   
@@ -114,10 +115,7 @@ const CaptainHome = () => {
         </Link>
       </div>
       <div className="h-3/5">
-        <img
-          className="h-full w-full object-cover"
-          src="https://previews.123rf.com/images/rhoeo/rhoeo2003/rhoeo200300016/142233376-urban-taxi-service-vector-illustration-yellow-taxi-car-and-route-with-dash-line-trace-tracking.jpg"
-        ></img>
+        <LiveTracking />
       </div>
       <div className="h-2/5 p-6">
         <CaptainDetails captain={captain}/>

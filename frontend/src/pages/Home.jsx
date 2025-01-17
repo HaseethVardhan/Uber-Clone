@@ -9,7 +9,8 @@ import LookingForDriver from "../components/LookingForDriver";
 import WaitingForDriver from "../components/WaitingForDriver";
 import { SocketContext } from '../context/SocketContext.jsx';
 import {UserDataContext} from '../context/UserContext.jsx'
-import { set } from "mongoose";
+import { useNavigate } from "react-router-dom";
+import LiveTracking from "../components/LiveTracking.jsx";
 
 const Home = () => {
   const [pickup, setpickup] = useState("");
@@ -37,6 +38,8 @@ const Home = () => {
   const { socket } = useContext(SocketContext)
   const {user} = useContext(UserDataContext)
 
+  const navigate = useNavigate()
+
   useEffect(() => {
     socket.emit("join", { userType: "user", userId: user._id })
 }, [ user ])
@@ -46,6 +49,13 @@ const Home = () => {
     setconfirmRideDetails(data)
     setvehicleFound(false)
     setwaitingForDriver(true)
+  })
+
+  socket.on('ride-start', data => {
+    setwaitingForDriver(false)
+    console.log(data)
+    navigate('/riding', {state: {ride: data}})
+
   })
 
   const submitHandler = (e) => {
@@ -100,11 +110,11 @@ const Home = () => {
   useGSAP(function(){
     if(vehicleFound){
       gsap.to(vehicleFoundRef.current, {
-        transform: 'translateY(0)'
+        transform: 'translateY(0)',
       })
     }else{
       gsap.to(vehicleFoundRef.current, {
-        transform: 'translateY(100%)'
+        transform: 'translateY(100%)',
       })
     }
   }, [vehicleFound]);
@@ -143,11 +153,7 @@ const Home = () => {
       <div onClick={() => {
         setvehiclePanel(false)
       }} className="h-screen w-screen">
-        {/* image for temporary use */}
-        <img
-          className="h-full w-full object-cover"
-          src="https://previews.123rf.com/images/rhoeo/rhoeo2003/rhoeo200300016/142233376-urban-taxi-service-vector-illustration-yellow-taxi-car-and-route-with-dash-line-trace-tracking.jpg"
-        ></img>
+        <LiveTracking />
       </div>
 
       <div className="flex flex-col justify-end h-screen top-0 absolute w-full">

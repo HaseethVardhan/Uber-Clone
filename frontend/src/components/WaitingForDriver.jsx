@@ -6,7 +6,7 @@ const WaitingForDriver = (props) => {
       <h5
         className="p-1 text-center w-[93%] absolute top-0 "
         onClick={() => {
-          props.setwaitingForDriver(false);
+          props.setWaitingForDriver(false);
         }}
       >
         <i className="text-3xl text-gray-200 ri-arrow-down-wide-line"></i>
@@ -48,7 +48,7 @@ const WaitingForDriver = (props) => {
           <div className="flex items-center gap-5 p-3">
             <i className="text-lg ri-currency-line"></i>
             <div>
-              <h3 className="text-lg font-medium">&#8377;{props.confirmRideDetails?.fare}</h3>
+              <h3 className="text-lg font-medium">&#8377;{Math.ceil(props.confirmRideDetails?.fare)}</h3>
               <p className="text-gray-600 text-sm -mt-1">Cash Cash</p>
             </div>
           </div>
